@@ -82,17 +82,13 @@ extension MainViewController: CLLocationManagerDelegate {
             }
         )
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            let alert = UIAlertController(title: "Error",
-                                          message: error.localizedDescription,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK",
-                                          style: .cancel,
-                                          handler: nil))
-            self?.present(alert, animated: true, completion: nil)
-        }
+        print(error.localizedDescription)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        manager.requestLocation()
     }
 }
 
