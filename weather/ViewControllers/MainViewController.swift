@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
         self.locationSearchBar.setSearchFieldBackgroundImage(UIImage(), for: .normal)
         self.locationSearchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         let searchBarTextField = locationSearchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.textColor = .darkGray
+        searchBarTextField?.textColor = .white
         self.view.addBackgroundFor(date: Date())
     }
     
