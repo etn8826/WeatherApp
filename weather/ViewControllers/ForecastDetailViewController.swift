@@ -35,11 +35,11 @@ class ForecastDetailViewController: UIViewController {
         let tempString = ForecastHelper.convert(temp: forecast.main.temp, from: .kelvin, to: viewModel.newTemp)
         let feelsLikeTempString = ForecastHelper.convert(temp: forecast.main.feelsLike, from: .kelvin, to: viewModel.newTemp)
         let date = Date(timeIntervalSince1970: TimeInterval(forecast.dt))
-        let dateString = DateHelper.convertDTToString(dt: forecast.dt, format: .dateTime)
+        let dateString = DateHelper.convertDTToString(dateString: "", format: .dateTime)
         
         self.title = viewModel.cityName
         viewModel.blurEffectView.isHidden = true
-        self.view.addBackgroundFor(date: date, weather: forecast.weather[0].main)
+//        self.view.addBackgroundFor(date: date, weather: forecast.weather[0].main)
         self.pickerView.setValue(UIColor.white, forKeyPath: "textColor")
         self.tempLabel.text = tempString
         self.subWeatherLabel.text = forecast.weather[0].description.capitalized

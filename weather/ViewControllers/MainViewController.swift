@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
     var searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var locationManager = CLLocationManager()
+    private let viewModel = MainViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +30,34 @@ class MainViewController: UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         self.configureView()
+        self.bindViewModel()
+    }
+
+    private func bindViewModel() {
+        viewModel.onForecastFetched = { [weak self] forecast in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                let sender: [String: Any?] = ["forecast": forecast]
+                self?.performSegue(withIdentifier: "showForecast", sender: sender)
+            }
+        }
+        
+        viewModel.onError = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self?.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     private func configureView() {
         self.locationSearchBar.setSearchFieldBackgroundImage(UIImage(), for: .normal)
         self.locationSearchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         let searchBarTextField = locationSearchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.textColor = .white
-        self.view.addBackgroundFor(date: Date())
+        searchBarTextField?.textColor = .black
+//        self.view.addBackgroundFor(date: Date())
     }
     
     @objc func dismissKeyboard() {
@@ -51,7 +72,7 @@ class MainViewController: UIViewController {
         if segue.identifier == "showForecast" {
             let forecastViewController = segue.destination as? ForecastViewController
             let obj = sender as? [String: Any?]
-            forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? CityForeCast)
+            forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? HourlyForecastResponse)
         }
     }
 }
@@ -61,26 +82,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.activityIndicator.startAnimating()
         self.activityIndicator.isHidden = false
-        MainViewInteractor.getForecastWithUserLocation(
-            locations: locations,
-            success: { [weak self] cityForecast in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    self?.activityIndicator.isHidden = true
-                    let sender: [String: Any?] = ["forecast": cityForecast]
-                    self?.performSegue(withIdentifier: "showForecast", sender: sender)
-                }
-            },
-            failure: { [weak self] error in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    self?.activityIndicator.isHidden = true
-                    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                    self?.present(alert, animated: true, completion: nil)
-                }
-            }
-        )
+        viewModel.getForecast(location: locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -140,9 +142,9 @@ extension MainViewController: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         cell.backgroundColor = .clear
         cell.textLabel?.text = searchResult.title
-        cell.textLabel?.textColor = .white
+        cell.textLabel?.textColor = .black
         cell.detailTextLabel?.text = searchResult.subtitle
-        cell.detailTextLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .black
         return cell
     }
 }
@@ -153,24 +155,10 @@ extension MainViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         self.activityIndicator.startAnimating()
         self.activityIndicator.isHidden = false
-        MainViewInteractor.getForecastWithSearchResults(
-            searchResults: self.searchResults,
-            row: indexPath.row,
-            success: { [weak self] cityForecast in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    let sender: [String: Any?] = ["forecast": cityForecast]
-                    self?.performSegue(withIdentifier: "showForecast", sender: sender)
-                }
-            },
-            failure: { [weak self] error in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                    self?.present(alert, animated: true, completion: nil)
-                }
-            }
-        )
+
+        let searchRequest = MKLocalSearch.Request(completion: self.searchResults[indexPath.row])
+        let cityState = searchRequest.naturalLanguageQuery
+        guard let cityState = cityState else { return }
+        viewModel.getForecast(cityState: cityState)
     }
 }

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="forecastCell" rowHeight="57" id="mKB-g3-51O" customClass="ForecastCell" customModule="weather" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="forecastCell" rowHeight="120" id="mKB-g3-51O" customClass="ForecastCell" customModule="weather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="114"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mKB-g3-51O" id="H0t-s8-ZBb">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mKB-g3-51O" id="H0t-s8-ZBb">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="114"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud.rain" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="M1Q-ws-lF6">
-                        <rect key="frame" x="254" y="17" width="16" height="17.5"/>
+                        <rect key="frame" x="279" y="56" width="16" height="17.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="hqo-22-hZG"/>
@@ -31,69 +32,66 @@
                             <constraint firstAttribute="width" constant="75" id="ksV-A7-l2G"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHn-9q-SNp">
-                        <rect key="frame" x="103" y="10" width="41.5" height="30"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="htM-Dj-jpQ"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TXy-Jk-3Jj">
-                        <rect key="frame" x="154.5" y="10" width="41.5" height="30"/>
+                        <rect key="frame" x="103" y="10" width="41.5" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="NoU-My-rCo"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCG-3f-LXm">
-                        <rect key="frame" x="364" y="10" width="42" height="30"/>
+                        <rect key="frame" x="364" y="50" width="42" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="5QD-DU-4dh"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bG3-bu-czy">
-                        <rect key="frame" x="274" y="10" width="40" height="30"/>
+                        <rect key="frame" x="299" y="50" width="40" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="kuK-zW-sy2"/>
                             <constraint firstAttribute="width" constant="40" id="nwW-Cz-gq8"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHn-9q-SNp">
+                        <rect key="frame" x="103" y="50" width="41.5" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="htM-Dj-jpQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="bG3-bu-czy" firstAttribute="leading" secondItem="M1Q-ws-lF6" secondAttribute="trailing" constant="4" id="103-8P-0ed"/>
-                    <constraint firstItem="YHn-9q-SNp" firstAttribute="leading" secondItem="eX9-V7-vVa" secondAttribute="trailing" constant="20" id="2bD-1g-IfW"/>
-                    <constraint firstItem="bG3-bu-czy" firstAttribute="top" secondItem="H0t-s8-ZBb" secondAttribute="top" constant="10" id="ECR-GA-eJn"/>
-                    <constraint firstAttribute="bottom" secondItem="TXy-Jk-3Jj" secondAttribute="bottom" constant="10" id="MdV-VS-he9"/>
-                    <constraint firstItem="YHn-9q-SNp" firstAttribute="top" secondItem="H0t-s8-ZBb" secondAttribute="top" constant="10" id="Vhj-pU-B0T"/>
+                    <constraint firstItem="YHn-9q-SNp" firstAttribute="top" secondItem="TXy-Jk-3Jj" secondAttribute="bottom" constant="10" id="G2i-Ng-iPP"/>
                     <constraint firstItem="TXy-Jk-3Jj" firstAttribute="top" secondItem="H0t-s8-ZBb" secondAttribute="top" constant="10" id="WSQ-MY-pfg"/>
                     <constraint firstItem="eX9-V7-vVa" firstAttribute="top" secondItem="H0t-s8-ZBb" secondAttribute="top" constant="10" id="YOk-3s-6Xq"/>
                     <constraint firstAttribute="trailing" secondItem="KCG-3f-LXm" secondAttribute="trailing" constant="8" id="ZWl-n8-ihY"/>
-                    <constraint firstItem="M1Q-ws-lF6" firstAttribute="centerY" secondItem="H0t-s8-ZBb" secondAttribute="centerY" id="asB-6d-K6o"/>
-                    <constraint firstItem="TXy-Jk-3Jj" firstAttribute="leading" secondItem="YHn-9q-SNp" secondAttribute="trailing" constant="10" id="cbS-5w-ta4"/>
-                    <constraint firstAttribute="trailing" secondItem="bG3-bu-czy" secondAttribute="trailing" constant="100" id="i08-5x-J31"/>
-                    <constraint firstAttribute="bottom" secondItem="eX9-V7-vVa" secondAttribute="bottom" constant="10" id="oiv-yA-sIb"/>
-                    <constraint firstAttribute="bottom" secondItem="KCG-3f-LXm" secondAttribute="bottom" constant="10" id="qWP-8Y-dPK"/>
+                    <constraint firstItem="M1Q-ws-lF6" firstAttribute="centerY" secondItem="KCG-3f-LXm" secondAttribute="centerY" id="asB-6d-K6o"/>
+                    <constraint firstItem="KCG-3f-LXm" firstAttribute="centerY" secondItem="YHn-9q-SNp" secondAttribute="centerY" id="dj5-Vm-qE8"/>
+                    <constraint firstAttribute="trailing" secondItem="bG3-bu-czy" secondAttribute="trailing" constant="75" id="i08-5x-J31"/>
+                    <constraint firstItem="TXy-Jk-3Jj" firstAttribute="leading" secondItem="eX9-V7-vVa" secondAttribute="trailing" constant="20" id="inb-AA-SFt"/>
                     <constraint firstItem="eX9-V7-vVa" firstAttribute="leading" secondItem="H0t-s8-ZBb" secondAttribute="leading" constant="8" id="s0S-ED-OU3"/>
-                    <constraint firstAttribute="bottom" secondItem="bG3-bu-czy" secondAttribute="bottom" constant="10" id="w3p-8T-l9S"/>
-                    <constraint firstItem="KCG-3f-LXm" firstAttribute="top" secondItem="H0t-s8-ZBb" secondAttribute="top" constant="10" id="wor-qP-uNX"/>
+                    <constraint firstItem="bG3-bu-czy" firstAttribute="centerY" secondItem="KCG-3f-LXm" secondAttribute="centerY" id="vvm-bM-GPh"/>
+                    <constraint firstItem="YHn-9q-SNp" firstAttribute="leading" secondItem="TXy-Jk-3Jj" secondAttribute="leading" id="y0V-p6-nHK"/>
+                    <constraint firstAttribute="bottom" secondItem="YHn-9q-SNp" secondAttribute="bottom" constant="10" id="ygP-eu-lFq"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -104,10 +102,10 @@
                 <outlet property="weatherLabel" destination="TXy-Jk-3Jj" id="WcE-YS-P9f"/>
                 <outlet property="windLabel" destination="KCG-3f-LXm" id="TZk-Gu-DR9"/>
             </connections>
-            <point key="canvasLocation" x="353.62318840579712" y="69.308035714285708"/>
+            <point key="canvasLocation" x="353.62318840579712" y="90.401785714285708"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="cloud.rain" catalog="system" width="125" height="128"/>
+        <image name="cloud.rain" catalog="system" width="126" height="128"/>
     </resources>
 </document>

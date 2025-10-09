@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct ForecastViewModel {
-    var cityForecast: CityForeCast?
+    var cityForecast: HourlyForecastResponse?
     let pickerStatuses = ["Fahrenheit", "Celsius"]
     var newTemp: UnitTemperature = .fahrenheit
     let blurEffect = UIBlurEffect(style: .light)
@@ -18,8 +18,8 @@ struct ForecastViewModel {
     lazy var dateArray: [String] = {
         guard let forecast = cityForecast else { return [] }
         var dateArray: [String] = []
-        for item in forecast.list {
-            let dateString = DateHelper.convertDTToString(dt: item.dt, format: .date)
+        for item in forecast.properties.periods {
+            let dateString = DateHelper.convertDTToString(dateString: item.startTime, format: .date)
             dateArray.append(dateString)
         }
         guard let uniqueOrdered = Array(NSOrderedSet(array: dateArray)) as? [String]
