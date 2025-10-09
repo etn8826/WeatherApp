@@ -42,6 +42,7 @@
 		526E4CB42738A38400D95458 /* DateHelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526E4CB32738A38400D95458 /* DateHelperTest.swift */; };
 		526E4CB62738A5E500D95458 /* BackgroundSelectorHelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526E4CB52738A5E500D95458 /* BackgroundSelectorHelperTest.swift */; };
 		52823657273834FC0004010D /* ForecastDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52823656273834FC0004010D /* ForecastDetailViewController.swift */; };
+		A0E550282E9845D000EF5895 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E550272E9845D000EF5895 /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		526E4CB32738A38400D95458 /* DateHelperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelperTest.swift; sourceTree = "<group>"; };
 		526E4CB52738A5E500D95458 /* BackgroundSelectorHelperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSelectorHelperTest.swift; sourceTree = "<group>"; };
 		52823656273834FC0004010D /* ForecastDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDetailViewController.swift; sourceTree = "<group>"; };
+		A0E550272E9845D000EF5895 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 			children = (
 				526E4CA8273881B000D95458 /* ForecastViewModel.swift */,
 				526E4CAD2738978E00D95458 /* ForecastDetailViewModel.swift */,
+				A0E550272E9845D000EF5895 /* MainViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				0DA8A4532736DF0B006A87E3 /* MainViewController.swift in Sources */,
 				0D133E952736F66A00FB1E86 /* City.swift in Sources */,
 				0DA8A4252736D840006A87E3 /* SceneDelegate.swift in Sources */,
+				A0E550282E9845D000EF5895 /* MainViewModel.swift in Sources */,
 				52823657273834FC0004010D /* ForecastDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

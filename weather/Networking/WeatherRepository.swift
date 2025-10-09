@@ -6,12 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct WeatherRepository {
-    static func getWeatherForCity(city: String, success: @escaping (CityForeCast) -> Void, failure: @escaping (Error) -> Void) {
-        let queryString = city.replacingOccurrences(of: " ", with: "+")
-        let appId = "65d00499677e59496ca2f318eb68c049"
-        let path = "https://api.openweathermap.org/data/2.5/forecast?q=\(queryString)&appid=\(appId)"
+    static func getWeatherForCity(coords: CLLocationCoordinate2D, success: @escaping (ForecastReponse) -> Void, failure: @escaping (Error) -> Void) {
+        let path = "https://api.weather.gov/points/\(coords.latitude),\(coords.longitude)"
         guard let url = URL(string: path) else {
             let cityError = NSError(domain: "", code: 0, userInfo: [ NSLocalizedDescriptionKey: "Can not get data for city entered"])
             failure(cityError)
@@ -20,8 +19,31 @@ struct WeatherRepository {
         
         let getSuccess: (Data) -> Void = { data in
             do {
-                let cityForecast = try JSONDecoder().decode(CityForeCast.self, from: data)
-                success(cityForecast)
+                let hourlyForecast = try JSONDecoder().decode(ForecastReponse.self, from: data)
+                success(hourlyForecast)
+            } catch let error {
+                failure(error)
+            }
+        }
+        
+        let getFailure: (Error) -> Void = { error in
+            failure(error)
+        }
+        
+        WebServiceManager.shared.makeRequest(url, success: getSuccess, failure: getFailure)
+    }
+    
+    static func getHourlyForecast(from urlString: String, success: @escaping (HourlyForecastResponse) -> Void, failure: @escaping (Error) -> Void) {
+        guard let url = URL(string: urlString) else {
+            let cityError = NSError(domain: "", code: 0, userInfo: [ NSLocalizedDescriptionKey: "Can not get data for city entered"])
+            failure(cityError)
+            return
+        }
+        
+        let getSuccess: (Data) -> Void = { data in
+            do {
+                let hourlyForecast = try JSONDecoder().decode(HourlyForecastResponse.self, from: data)
+                success(hourlyForecast)
             } catch let error {
                 failure(error)
             }

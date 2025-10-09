@@ -41,3 +41,30 @@ struct Forecast: Decodable {
         
     }
 }
+
+struct ForecastReponse: Codable {
+    let properties: Properties
+}
+
+struct Properties: Codable {
+    let forecastHourly: String
+}
+
+struct HourlyForecastResponse: Codable {
+    let properties: HourlyForecastProperties
+}
+
+struct HourlyForecastProperties: Codable {
+    let periods: [Periods]
+}
+
+struct Periods: Codable {
+    let startTime: String
+    let endTime: String
+    let temperature: Int
+    let temperatureUnit: String
+    let windSpeed: String
+    let windDirection: String
+    let icon: String
+    let shortForecast: String
+}

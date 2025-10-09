@@ -14,11 +14,15 @@ struct DateHelper {
         case time = "h:mm a"
         case dateTime = "EEEE, MMMM d\nhh:mm a"
     }
-    static func convertDTToString(dt: Int, format: DateFormat) -> String {
-        let date = Date(timeIntervalSince1970: TimeInterval(dt))
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = format.rawValue
-        return dateFormatter.string(from: date)
+    static func convertDTToString(dateString: String, format: DateFormat) -> String {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = isoFormatter.date(from: dateString) ?? ISO8601DateFormatter().date(from: dateString) {
+            let displayFormatter = DateFormatter()
+            displayFormatter.dateFormat = format.rawValue
+            return displayFormatter.string(from: date)
+        } else {
+            return ""
+        }
     }
 }
