@@ -22,35 +22,39 @@ class WebServiceManager: NSObject {
         config.httpMaximumConnectionsPerHost = 10
         return URLSession(configuration: config)
     }()
-
-    func makeRequest(_ url: URL, success: @escaping ((_ data: Data) -> Void), failure: @escaping ((_ error: Error) -> Void)) {
+    
+    func performRequest<T: Codable>(_ url: URL, onComplete: @escaping ((Result<T, Error>) -> Void)) {
         let request = URLRequest(url: url)
-        performRequest(request, success: success, failure: failure)
-    }
-
-    private func performRequest(_ request: URLRequest, success: @escaping ((_ data: Data) -> Void), failure: @escaping ((_ error: Error) -> Void)) {
-        session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        session.configuration.urlCache = nil
         let task = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
-                failure(error)
-            } else if let webServiceError = self.checkStatusCode(data, response: response as? HTTPURLResponse) {
-                failure(webServiceError)
+                onComplete(.failure(error))
+            } else if let webServiceError = self.checkStatusCode(response: response as? HTTPURLResponse) {
+                onComplete(.failure(webServiceError))
             } else {
-                success(data ?? Data())
+                do {
+                    let decodedData = try JSONDecoder().decode(T.self, from: data ?? Data())
+                    onComplete(.success(decodedData))
+                }
+                catch let error {
+                    onComplete(.failure(error))
+                }
             }
         }
         
         task.resume()
     }
 
-    private func checkStatusCode(_ data: Data?, response: HTTPURLResponse!) -> Error? {
+    private func checkStatusCode(response: HTTPURLResponse?) -> Error? {
+        guard let statusCode = response?.statusCode else {
+            let webError = NSError(domain: "", code: 0, userInfo: [ NSLocalizedDescriptionKey: "An error has occurred"])
+            return webError
+        }
         var error: Error? = .none
-        switch response.statusCode {
+        switch statusCode {
         case 200...299:
             break
         default:
-            let webError = NSError(domain: "", code: response.statusCode, userInfo: [ NSLocalizedDescriptionKey: "An error has occurred"])
+            let webError = NSError(domain: "", code: statusCode, userInfo: [ NSLocalizedDescriptionKey: "An error has occurred"])
             error = webError
         }
         return error

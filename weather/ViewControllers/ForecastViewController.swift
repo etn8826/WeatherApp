@@ -54,14 +54,14 @@ class ForecastViewController: UIViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "presentForecastDetail" {
-            let forecastDetailViewController = segue.destination as? ForecastDetailViewController
-            let obj = sender as? [String: Any?]
-            let viewModel = ForecastDetailViewModel(forecast: obj?["forecast"] as? Forecast, cityName: "Cincinnati")
-            forecastDetailViewController?.forecastDetailViewModel = viewModel
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "presentForecastDetail" {
+//            let forecastDetailViewController = segue.destination as? ForecastDetailViewController
+//            let obj = sender as? [String: Any?]
+//            let viewModel = ForecastDetailViewModel(forecast: obj?["forecast"] as? Forecast, cityName: "Cincinnati")
+//            forecastDetailViewController?.forecastDetailViewModel = viewModel
+//        }
+//    }
 }
 
 // MARK: TableViewDataSource
@@ -130,13 +130,13 @@ extension ForecastViewController: UITableViewDataSource {
 
 // MARK: UITableViewDelegate
 extension ForecastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let sender: [String: Any?] = ["forecast": self.forecastViewModel?.cityForecast?.properties.periods[indexPath.row]]
-            self.performSegue(withIdentifier: "presentForecastDetail", sender: sender)
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        DispatchQueue.main.async {
+//            tableView.deselectRow(at: indexPath, animated: true)
+//            let sender: [String: Any?] = ["forecast": self.forecastViewModel?.cityForecast?.properties.periods[indexPath.row]]
+//            self.performSegue(withIdentifier: "presentForecastDetail", sender: sender)
+//        }
+//    }
     
 //    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //        if let headerView = view as? UITableViewHeaderFooterView {
