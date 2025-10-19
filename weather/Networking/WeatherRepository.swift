@@ -9,50 +9,42 @@ import Foundation
 import CoreLocation
 
 struct WeatherRepository {
-    static func getWeatherForCity(coords: CLLocationCoordinate2D, success: @escaping (ForecastReponse) -> Void, failure: @escaping (Error) -> Void) {
+    static func getWeatherForCity(coords: CLLocationCoordinate2D, onComplete: @escaping (Result<ForecastReponse, Error>) -> Void) {
         let path = "https://api.weather.gov/points/\(coords.latitude),\(coords.longitude)"
         guard let url = URL(string: path) else {
             let cityError = NSError(domain: "", code: 0, userInfo: [ NSLocalizedDescriptionKey: "Can not get data for city entered"])
-            failure(cityError)
+            onComplete(.failure(cityError))
             return
         }
         
-        let getSuccess: (Data) -> Void = { data in
-            do {
-                let hourlyForecast = try JSONDecoder().decode(ForecastReponse.self, from: data)
-                success(hourlyForecast)
-            } catch let error {
-                failure(error)
+        let onComplete: (Result<ForecastReponse, Error>) -> Void = { result in
+            switch result {
+            case .success(let hourlyForecast):
+                onComplete(.success(hourlyForecast))
+            case .failure(let error):
+                onComplete(.failure(error))
             }
         }
         
-        let getFailure: (Error) -> Void = { error in
-            failure(error)
-        }
-        
-        WebServiceManager.shared.makeRequest(url, success: getSuccess, failure: getFailure)
+        WebServiceManager.shared.performRequest(url, onComplete: onComplete)
     }
     
-    static func getHourlyForecast(from urlString: String, success: @escaping (HourlyForecastResponse) -> Void, failure: @escaping (Error) -> Void) {
+    static func getHourlyForecast(from urlString: String, onComplete: @escaping (Result<HourlyForecastResponse, Error>) -> Void) {
         guard let url = URL(string: urlString) else {
             let cityError = NSError(domain: "", code: 0, userInfo: [ NSLocalizedDescriptionKey: "Can not get data for city entered"])
-            failure(cityError)
+            onComplete(.failure(cityError))
             return
         }
         
-        let getSuccess: (Data) -> Void = { data in
-            do {
-                let hourlyForecast = try JSONDecoder().decode(HourlyForecastResponse.self, from: data)
-                success(hourlyForecast)
-            } catch let error {
-                failure(error)
+        let onComplete: (Result<HourlyForecastResponse, Error>) -> Void = { result in
+            switch result {
+            case .success(let hourlyForecast):
+                onComplete(.success(hourlyForecast))
+            case .failure(let error):
+                onComplete(.failure(error))
             }
         }
         
-        let getFailure: (Error) -> Void = { error in
-            failure(error)
-        }
-        
-        WebServiceManager.shared.makeRequest(url, success: getSuccess, failure: getFailure)
+        WebServiceManager.shared.performRequest(url, onComplete: onComplete)
     }
 }

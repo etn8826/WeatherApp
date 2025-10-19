@@ -13,25 +13,55 @@ class MainViewModel {
     var onError: ((Error) -> Void)?
     
     func getForecast(cityState: String) {
-        MainViewInteractor.getForecastWithSearchResults(
-            cityState: cityState,
-            success: { [weak self] cityForecast in
-                self?.onForecastFetched?(cityForecast)
-            },
-            failure: { [weak self] error in
-                self?.onError?(error)
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(cityState) { placemarks, error in
+            if let error = error {
+                print("Geocoding failed: \(error.localizedDescription)")
+                return
             }
-        )
+            
+            guard let placemark = placemarks?.first,
+                  let location = placemark.location else {
+                print("No location found")
+                return
+            }
+            
+            WeatherRepository.getWeatherForCity(coords: location.coordinate) { [weak self] result in
+                switch result {
+                case .success(let forecastResponse):
+                    WeatherRepository.getHourlyForecast(from: forecastResponse.properties.forecastHourly, onComplete: { [weak self] result in
+                        switch result {
+                        case .success(let hourlyForecast):
+                            self?.onForecastFetched?(hourlyForecast)
+                        case .failure(let error):
+                            self?.onError?(error)
+                        }
+                    })
+                case .failure(let error):
+                    self?.onError?(error)
+                }
+            }
+        }
     }
     
     func getForecast(location: [CLLocation]) {
-        MainViewInteractor.getForecastWithUserLocation(
-            locations: location,
-            success: { [weak self] cityForecast in
-                self?.onForecastFetched?(cityForecast)
-            },
-            failure: { [weak self] error in
-                self?.onError?(error)
+        guard let gpsLocation = location.last else { return }
+        WeatherRepository.getWeatherForCity(
+            coords: gpsLocation.coordinate,
+            onComplete: { [weak self] result in
+                switch result {
+                case .success(let forecastResponse):
+                    WeatherRepository.getHourlyForecast(from: forecastResponse.properties.forecastHourly, onComplete: { [weak self] result in
+                        switch result {
+                        case .success(let hourlyForecast):
+                            self?.onForecastFetched?(hourlyForecast)
+                        case .failure(let error):
+                            self?.onError?(error)
+                        }
+                    })
+                case .failure(let error):
+                        self?.onError?(error)
+                }
             }
         )
     }
