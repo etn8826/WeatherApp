@@ -10,20 +10,35 @@ import UIKit
 
 struct ForecastViewModel {
     var cityForecast: HourlyForecastResponse?
+    var cityState: RelativeLocationProperties?
     let pickerStatuses = ["Fahrenheit", "Celsius"]
     var newTemp: UnitTemperature = .fahrenheit
     let blurEffect = UIBlurEffect(style: .light)
     var blurEffectView = UIVisualEffectView()
     
-    lazy var dateArray: [String] = {
-        guard let forecast = cityForecast else { return [] }
-        var dateArray: [String] = []
-        for item in forecast.properties.periods {
-            let dateString = DateHelper.convertDTToString(dateString: item.startTime, format: .date)
-            dateArray.append(dateString)
+    struct DaySection {
+        let date: Date
+        let weathers: [Periods]
+    }
+    
+    let isoFormatter = ISO8601DateFormatter()
+    
+    lazy var dateArray: [DaySection] = {
+        guard let forecasts = cityForecast?.properties.periods else { return [] }
+        
+        let grouped = Dictionary(grouping: forecasts) { forecast -> Date in
+            // Convert string → Date
+            guard let date = isoFormatter.date(from: forecast.startTime) else {
+                return Date.distantPast
+            }
+            // Normalize to just year-month-day
+            let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+            return Calendar.current.date(from: components)!
         }
-        guard let uniqueOrdered = Array(NSOrderedSet(array: dateArray)) as? [String]
-        else { return [] }
-        return uniqueOrdered
+        
+        let sortedDays = grouped.keys.sorted()
+        return sortedDays.map { DaySection(date: $0, weathers: grouped[$0]!.sorted {
+            isoFormatter.date(from: $0.startTime)! < isoFormatter.date(from: $1.startTime)!
+        })}
     }()
 }

@@ -73,10 +73,10 @@ class MainViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.onForecastFetched = { [weak self] forecast in
+        viewModel.onForecastFetched = { [weak self] forecast, location in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
-                let sender: [String: Any?] = ["forecast": forecast]
+                let sender: [String: Any?] = ["forecast": forecast, "location": location]
                 self?.performSegue(withIdentifier: "showForecast", sender: sender)
             }
         }
@@ -159,7 +159,8 @@ class MainViewController: UIViewController {
         if segue.identifier == "showForecast" {
             let forecastViewController = segue.destination as? ForecastViewController
             let obj = sender as? [String: Any?]
-            forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? HourlyForecastResponse)
+            forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? HourlyForecastResponse,
+                                                                          cityState: obj?["location"] as? RelativeLocationProperties)
         }
     }
     
