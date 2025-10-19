@@ -48,6 +48,16 @@ struct ForecastReponse: Codable {
 
 struct Properties: Codable {
     let forecastHourly: String
+    let relativeLocation: RelativeLocation
+}
+
+struct RelativeLocation: Codable {
+    let properties: RelativeLocationProperties
+}
+
+struct RelativeLocationProperties: Codable {
+    let city: String
+    let state: String
 }
 
 struct HourlyForecastResponse: Codable {

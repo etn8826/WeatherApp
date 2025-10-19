@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 class MainViewModel {
-    var onForecastFetched: ((HourlyForecastResponse) -> Void)?
+    var onForecastFetched: ((HourlyForecastResponse, RelativeLocationProperties) -> Void)?
     var onError: ((Error) -> Void)?
     
     func getForecast(cityState: String) {
@@ -40,7 +40,7 @@ class MainViewModel {
                     WeatherRepository.getHourlyForecast(from: forecastResponse.properties.forecastHourly, onComplete: { [weak self] result in
                         switch result {
                         case .success(let hourlyForecast):
-                            self?.onForecastFetched?(hourlyForecast)
+                            self?.onForecastFetched?(hourlyForecast, forecastResponse.properties.relativeLocation.properties)
                         case .failure(let error):
                             self?.onError?(error)
                         }

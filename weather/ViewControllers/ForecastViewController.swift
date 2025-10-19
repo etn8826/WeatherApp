@@ -34,13 +34,14 @@ class ForecastViewController: UIViewController {
     private func configureView() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        self.title = "Cincinnati"//self.forecastViewModel?.cityForecast?.city.name
         self.tableView.backgroundView?.backgroundColor = .clear
         self.tableView.backgroundColor = .clear
         self.tableView.separatorStyle = .singleLine
         self.tableView.separatorColor = .black
         self.pickerView.setValue(UIColor.black, forKeyPath: "textColor")
-//        self.view.addBackgroundFor(date: Date(), weather: "Clear")
+        guard let cityState = self.forecastViewModel?.cityState else { return  }
+        self.title = "\(String(describing: cityState.city)), \(String(describing: cityState.state))"
+
     }
     
     @IBAction func degreeButtonPressed(_ sender: Any) {
@@ -56,42 +57,27 @@ class ForecastViewController: UIViewController {
 
     @IBAction func addForecast(_ sender: Any) {
     }
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "presentForecastDetail" {
-//            let forecastDetailViewController = segue.destination as? ForecastDetailViewController
-//            let obj = sender as? [String: Any?]
-//            let viewModel = ForecastDetailViewModel(forecast: obj?["forecast"] as? Forecast, cityName: "Cincinnati")
-//            forecastDetailViewController?.forecastDetailViewModel = viewModel
-//        }
-//    }
 }
 
 // MARK: TableViewDataSource
 extension ForecastViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-//        return self.forecastViewModel?.dateArray.count ?? 0
+        return self.forecastViewModel?.dateArray.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let forecast = self.forecastViewModel?.cityForecast?.properties.periods else { return 0 }
-//        var count = 0
-//        for item in forecast {
-//            if self.forecastViewModel?.dateArray[section] == item.startTime {
-//                count += 1
-//            }
-//        }
-//        
-//        return count
-        return forecast.count
+        return self.forecastViewModel?.dateArray[section].weathers.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.forecastViewModel?.dateArray[section]
+        guard let date = self.forecastViewModel?.dateArray[section].date else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d"
+        return formatter.string(from: date)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let forecast = self.forecastViewModel?.cityForecast?.properties.periods[indexPath.row],
+        guard let forecast = self.forecastViewModel?.dateArray[indexPath.section].weathers[indexPath.row],
               let cell = tableView.dequeueReusableCell(withIdentifier: "forecastCell", for: indexPath) as? ForecastCell
         else { return UITableViewCell() }
 
@@ -109,45 +95,6 @@ extension ForecastViewController: UITableViewDataSource {
         cell.backgroundView?.backgroundColor = .clear
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let header = UIView()
-//        header.backgroundColor = UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
-//        
-//        let label = UILabel()
-//        label.text =  forecastViewModel?.dateArray[section]
-//        label.textColor = .darkGray
-//        label.font = .boldSystemFont(ofSize: 16)
-//        
-//        header.addSubview(label)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 16),
-//            label.centerYAnchor.constraint(equalTo: header.centerYAnchor)
-//        ])
-//        
-//        return header
-//    }
-}
-
-// MARK: UITableViewDelegate
-extension ForecastViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        DispatchQueue.main.async {
-//            tableView.deselectRow(at: indexPath, animated: true)
-//            let sender: [String: Any?] = ["forecast": self.forecastViewModel?.cityForecast?.properties.periods[indexPath.row]]
-//            self.performSegue(withIdentifier: "presentForecastDetail", sender: sender)
-//        }
-//    }
-    
-//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        if let headerView = view as? UITableViewHeaderFooterView {
-//            headerView.contentView.backgroundColor = .clear
-//            headerView.backgroundView?.backgroundColor = .clear
-//            headerView.tintColor = .clear
-//            headerView.textLabel?.textColor = .black
-//        }
-//    }
 }
 
 // MARK: UIPickerViewDataSource && UIPickerViewDelegate
