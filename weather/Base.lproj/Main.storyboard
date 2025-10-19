@@ -100,7 +100,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xMY-AC-qEl">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xMY-AC-qEl">
                                 <rect key="frame" x="0.0" y="92" width="414" height="770"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -137,142 +137,27 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qW2-0q-u5K">
-                        <barButtonItem key="rightBarButtonItem" image="thermometer" catalog="system" id="k5A-6d-mro">
-                            <connections>
-                                <action selector="degreeButtonPressed:" destination="hJK-jV-RVN" id="7hu-D5-opZ"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="thermometer.medium" catalog="system" id="k5A-6d-mro">
+                                <connections>
+                                    <action selector="degreeButtonPressed:" destination="hJK-jV-RVN" id="7hu-D5-opZ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="kd8-xi-Eju">
+                                <connections>
+                                    <action selector="addForecast:" destination="hJK-jV-RVN" id="NDm-iK-cVb"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="pickerView" destination="YUY-1p-eod" id="xgF-hO-V43"/>
                         <outlet property="tableView" destination="xMY-AC-qEl" id="jAI-OZ-nw9"/>
-                        <segue destination="Ccp-TL-pyS" kind="show" identifier="presentForecastDetail" id="Njk-YU-vi3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cE1-Qr-HOs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="947.82608695652186" y="97.767857142857139"/>
-        </scene>
-        <!--Forecast Detail View Controller-->
-        <scene sceneID="cRG-U9-KoV">
-            <objects>
-                <viewController id="Ccp-TL-pyS" customClass="ForecastDetailViewController" customModule="weather" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="SVp-hj-smR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="78" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmd-0D-RIc">
-                                <rect key="frame" x="132" y="408" width="150" height="80"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="4Us-2Y-EnW"/>
-                                    <constraint firstAttribute="height" constant="80" id="Nnt-UT-Amu"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feels like:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mal-dy-mvN">
-                                <rect key="frame" x="132" y="488" width="80" height="40"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="FrR-3k-VaY"/>
-                                    <constraint firstAttribute="height" constant="40" id="dT1-OG-Xew"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clouds" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSb-t3-cqd">
-                                <rect key="frame" x="161.5" y="152" width="91.5" height="40"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="CSN-dz-Y24"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="broken clouds" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhZ-g9-JB1">
-                                <rect key="frame" x="153.5" y="192" width="107.5" height="40"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="C8X-gK-s2C"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="80" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfB-xO-dcK">
-                                <rect key="frame" x="220" y="488" width="62" height="40"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="lO7-8b-qt9"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <pickerView hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Dc-J0-cKq">
-                                <rect key="frame" x="0.0" y="88" width="414" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Ccp-TL-pyS" id="MlU-lG-kjd"/>
-                                    <outlet property="delegate" destination="Ccp-TL-pyS" id="JjR-HL-xHK"/>
-                                </connections>
-                            </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZxB-9O-hBx">
-                                <rect key="frame" x="20" y="798" width="374" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="4de-eg-lQ0"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="4de-eg-lQ0" firstAttribute="bottom" secondItem="ZxB-9O-hBx" secondAttribute="bottom" constant="40" id="5mW-uW-0Wo"/>
-                            <constraint firstItem="yhZ-g9-JB1" firstAttribute="top" secondItem="sSb-t3-cqd" secondAttribute="bottom" id="7O9-ay-IVm"/>
-                            <constraint firstItem="cfB-xO-dcK" firstAttribute="leading" secondItem="mal-dy-mvN" secondAttribute="trailing" constant="8" id="AsO-iP-9i4"/>
-                            <constraint firstItem="mal-dy-mvN" firstAttribute="leading" secondItem="gmd-0D-RIc" secondAttribute="leading" id="DL2-8i-X1u"/>
-                            <constraint firstItem="yhZ-g9-JB1" firstAttribute="centerX" secondItem="SVp-hj-smR" secondAttribute="centerX" id="IVj-eC-lEP"/>
-                            <constraint firstItem="cfB-xO-dcK" firstAttribute="centerY" secondItem="mal-dy-mvN" secondAttribute="centerY" id="NDd-O8-Sg0"/>
-                            <constraint firstItem="ZxB-9O-hBx" firstAttribute="centerX" secondItem="SVp-hj-smR" secondAttribute="centerX" id="aJF-fK-wfM"/>
-                            <constraint firstItem="cfB-xO-dcK" firstAttribute="trailing" secondItem="gmd-0D-RIc" secondAttribute="trailing" id="ceX-ZK-Lol"/>
-                            <constraint firstItem="4de-eg-lQ0" firstAttribute="trailing" secondItem="ZxB-9O-hBx" secondAttribute="trailing" constant="20" id="dml-mr-pU8"/>
-                            <constraint firstItem="sSb-t3-cqd" firstAttribute="centerX" secondItem="SVp-hj-smR" secondAttribute="centerX" id="frC-5K-sLu"/>
-                            <constraint firstItem="ZxB-9O-hBx" firstAttribute="leading" secondItem="4de-eg-lQ0" secondAttribute="leading" constant="20" id="iQk-q1-1gD"/>
-                            <constraint firstItem="gmd-0D-RIc" firstAttribute="centerY" secondItem="SVp-hj-smR" secondAttribute="centerY" id="rRV-da-WcG"/>
-                            <constraint firstItem="mal-dy-mvN" firstAttribute="top" secondItem="gmd-0D-RIc" secondAttribute="bottom" id="uKe-Ae-JBA"/>
-                            <constraint firstItem="gmd-0D-RIc" firstAttribute="centerX" secondItem="SVp-hj-smR" secondAttribute="centerX" id="wcD-RM-haz"/>
-                            <constraint firstItem="sSb-t3-cqd" firstAttribute="top" secondItem="4de-eg-lQ0" secondAttribute="top" constant="60" id="yKp-Ut-dct"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="EnB-4V-dox">
-                        <barButtonItem key="rightBarButtonItem" image="thermometer" catalog="system" id="l25-Bx-l8z">
-                            <connections>
-                                <action selector="tempButtonPressed:" destination="Ccp-TL-pyS" id="pol-i1-Iww"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="dateLabel" destination="ZxB-9O-hBx" id="UpP-63-Gi0"/>
-                        <outlet property="feelsLikeTempLabel" destination="cfB-xO-dcK" id="tvO-9y-M4X"/>
-                        <outlet property="pickerView" destination="3Dc-J0-cKq" id="0s6-Gh-pfz"/>
-                        <outlet property="subWeatherLabel" destination="yhZ-g9-JB1" id="5qN-RF-OC9"/>
-                        <outlet property="tempLabel" destination="gmd-0D-RIc" id="2s0-dW-cJd"/>
-                        <outlet property="weatherLabel" destination="sSb-t3-cqd" id="NyQ-Cj-pI3"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kbm-Sv-AL4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1835" y="98"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gst-c0-fuO">
@@ -292,7 +177,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="thermometer" catalog="system" width="80" height="128"/>
+        <image name="thermometer.medium" catalog="system" width="80" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

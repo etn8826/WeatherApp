@@ -16,10 +16,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var locationSearchBar: UISearchBar!
     @IBOutlet weak var locationButton: CLLocationButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
     var locationManager = CLLocationManager()
+    private var searchResultsTableView: UITableView!
+    private var searchResultsTableHeightConstraint: NSLayoutConstraint?
+    private var dimmingView: UIView!
+    private let searchCellId = "SeachResultCell"
+    private let maxOverlayHeight: CGFloat = 300.0
     private let viewModel = MainViewModel()
+    private var searchDataSource: SearchResultsDataSource!
+    private var forecastDataSource: ForecastResultsDataSource!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +38,40 @@ class MainViewController: UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         self.configureView()
+        self.configureSearchTableView()
+        self.configureTableViewDataSource()
         self.bindViewModel()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.locationSearchBar.text = ""
+        self.searchResults = []
+    }
 
+    private func configureTableViewDataSource() {
+        forecastDataSource = ForecastResultsDataSource(tableView: locationSearchTableView) { cell, item, _ in
+            if let s = item as? String {
+                cell.textLabel?.text = s
+            } else {
+                cell.textLabel?.text = String(describing: item)
+            }
+        }
+        forecastDataSource.didSelect = { [weak self] item in
+            print("API row selected:", item)
+        }
+        
+        searchDataSource = SearchResultsDataSource(tableView: searchResultsTableView)
+        searchDataSource.didSelect = { [weak self] completion in
+            self?.hideOverlay()
+            self?.locationSearchBar.resignFirstResponder()
+            let request = MKLocalSearch.Request(completion: completion)
+            if let cityState = request.naturalLanguageQuery {
+                self?.viewModel.getForecast(cityState: cityState)
+            }
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.onForecastFetched = { [weak self] forecast in
             DispatchQueue.main.async {
@@ -57,8 +96,56 @@ class MainViewController: UIViewController {
         self.locationSearchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         let searchBarTextField = locationSearchBar.value(forKey: "searchField") as? UITextField
         searchBarTextField?.textColor = .black
-//        self.view.addBackgroundFor(date: Date())
     }
+    
+    private func configureSearchTableView() {
+        dimmingView = UIView(frame: .zero)
+        dimmingView.translatesAutoresizingMaskIntoConstraints = false
+        dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        dimmingView.alpha = 0
+        dimmingView.isHidden = true
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismissOverlay))
+        dimmingView.addGestureRecognizer(dismissTap)
+        view.addSubview(dimmingView)
+        NSLayoutConstraint.activate([
+            dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dimmingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            dimmingView.topAnchor.constraint(equalTo: view.topAnchor),
+            dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        searchResultsTableView = UITableView(frame: .zero, style: .plain)
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        searchResultsTableView.backgroundColor = .white
+        searchResultsTableView.layer.cornerRadius = 12
+        searchResultsTableView.layer.masksToBounds = true
+        searchResultsTableView.layer.shadowColor = UIColor.black.cgColor
+        searchResultsTableView.layer.shadowOpacity = 0.2
+        searchResultsTableView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        searchResultsTableView.layer.shadowRadius = 8
+        searchResultsTableView.separatorColor = .lightGray
+        searchResultsTableView.separatorStyle = .singleLine
+        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: searchCellId)
+
+        view.addSubview(searchResultsTableView)
+
+        let leading = searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12)
+        let trailing = searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+        let top = searchResultsTableView.topAnchor.constraint(equalTo: locationSearchBar.bottomAnchor, constant: 8)
+        let height = searchResultsTableView.heightAnchor.constraint(equalToConstant: 0)
+        NSLayoutConstraint.activate([leading, trailing, top])
+        height.isActive = true
+        searchResultsTableHeightConstraint = height
+
+        searchResultsTableView.isHidden = true
+        view.bringSubviewToFront(dimmingView)
+        view.bringSubviewToFront(searchResultsTableView)
+    }
+    
+    @objc func dismissOverlay() {
+       hideOverlay()
+       dismissKeyboard()
+   }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
@@ -74,6 +161,30 @@ class MainViewController: UIViewController {
             let obj = sender as? [String: Any?]
             forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? HourlyForecastResponse)
         }
+    }
+    
+    private func showOverlay() {
+        guard searchResultsTableView.isHidden else { return }
+        dimmingView.isHidden = false
+        searchResultsTableView.isHidden = false
+        view.bringSubviewToFront(dimmingView)
+        view.bringSubviewToFront(searchResultsTableView)
+        UIView.animate(withDuration: 0.2) {
+            self.dimmingView.alpha = 1
+        }
+        if searchResultsTableHeightConstraint?.constant == 0 {
+            searchResultsTableHeightConstraint?.constant = min(maxOverlayHeight, view.bounds.height / 2)
+        }
+    }
+
+    private func hideOverlay() {
+        guard !searchResultsTableView.isHidden else { return }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.dimmingView.alpha = 0
+        }, completion: { _ in
+            self.dimmingView.isHidden = true
+        })
+        searchResultsTableView.isHidden = true
     }
 }
 
@@ -98,11 +209,17 @@ extension MainViewController: CLLocationManagerDelegate {
 extension MainViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            self.searchResults = []
-            self.locationSearchTableView.reloadData()
+            searchResults = []
+            searchDataSource.update(searchResults)
         } else {
             self.searchCompleter.queryFragment = searchText
         }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchDataSource.update(searchResults)
+        showOverlay()
+        view.bringSubviewToFront(searchResultsTableView)
     }
 }
 
@@ -122,43 +239,6 @@ extension MainViewController: MKLocalSearchCompleterDelegate {
             }
             return true
         }
-
-        self.locationSearchTableView.reloadData()
-    }
-}
-
-// MARK: UITableViewDataSource
-extension MainViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.searchResults.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let searchResult = self.searchResults[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.backgroundColor = .clear
-        cell.textLabel?.text = searchResult.title
-        cell.textLabel?.textColor = .black
-        cell.detailTextLabel?.text = searchResult.subtitle
-        cell.detailTextLabel?.textColor = .black
-        return cell
-    }
-}
-
-// MARK: UITableViewDelegate
-extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.activityIndicator.startAnimating()
-        self.activityIndicator.isHidden = false
-
-        let searchRequest = MKLocalSearch.Request(completion: self.searchResults[indexPath.row])
-        let cityState = searchRequest.naturalLanguageQuery
-        guard let cityState = cityState else { return }
-        viewModel.getForecast(cityState: cityState)
+        searchDataSource.update(searchResults)
     }
 }

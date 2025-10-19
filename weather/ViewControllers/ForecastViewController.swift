@@ -54,7 +54,9 @@ class ForecastViewController: UIViewController {
         }
     }
 
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    @IBAction func addForecast(_ sender: Any) {
+    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "presentForecastDetail" {
 //            let forecastDetailViewController = segue.destination as? ForecastDetailViewController
 //            let obj = sender as? [String: Any?]

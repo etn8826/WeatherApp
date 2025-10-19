@@ -26,21 +26,7 @@ class MainViewModel {
                 return
             }
             
-            WeatherRepository.getWeatherForCity(coords: location.coordinate) { [weak self] result in
-                switch result {
-                case .success(let forecastResponse):
-                    WeatherRepository.getHourlyForecast(from: forecastResponse.properties.forecastHourly, onComplete: { [weak self] result in
-                        switch result {
-                        case .success(let hourlyForecast):
-                            self?.onForecastFetched?(hourlyForecast)
-                        case .failure(let error):
-                            self?.onError?(error)
-                        }
-                    })
-                case .failure(let error):
-                    self?.onError?(error)
-                }
-            }
+            self.getForecast(location: [location])
         }
     }
     
