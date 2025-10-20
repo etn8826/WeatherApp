@@ -24,6 +24,7 @@ class ForecastViewController: UIViewController {
         self.view.addSubview(blurEffectView)
         self.registerTableViewCells()
         self.configureView()
+        self.configurePageView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +48,26 @@ class ForecastViewController: UIViewController {
         self.pickerView.setValue(UIColor.black, forKeyPath: "textColor")
         guard let cityState = self.forecastViewModel?.cityState else { return  }
         self.title = "\(String(describing: cityState.city)), \(String(describing: cityState.state))"
+    }
+    
+    private func configurePageView() {
+        let pageVC = DayForecastPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageVC.forecastViewModel = self.forecastViewModel
 
+        // add as child full-screen (or constrain to the area where the table was)
+        addChild(pageVC)
+        pageVC.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageVC.view)
+        NSLayoutConstraint.activate([
+            pageVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        pageVC.didMove(toParent: self)
+
+        // hide the old table view if present
+        tableView.isHidden = true
     }
     
     @IBAction func degreeButtonPressed(_ sender: Any) {
