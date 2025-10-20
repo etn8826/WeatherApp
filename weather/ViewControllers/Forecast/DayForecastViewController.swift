@@ -61,7 +61,7 @@ extension DayForecastViewController: UITableViewDataSource, UITableViewDelegate 
 
         let dateString = DateHelper.convertDTToString(dateString: forecast.startTime, format: .time)
         let tempString = ForecastHelper.convert(temp: Float(forecast.temperature), from: .fahrenheit, to: forecastViewModel?.newTemp ?? .fahrenheit)
-        let rainString = "0%"
+        let rainString = String(forecast.probabilityOfPrecipitation.value) + "%"
         let windString = forecast.windSpeed
 
         cell.weatherLabel.text = forecast.shortForecast

@@ -41,12 +41,13 @@ class MainViewController: UIViewController {
         self.configureSearchTableView()
         self.configureTableViewDataSource()
         self.bindViewModel()
+        self.view.addBackgroundFor(date: Date())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
-        self.view.insertSubview(gradientView, at: 0)
+//        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+//        self.view.insertSubview(gradientView, at: 0)
         self.locationSearchBar.text = ""
         self.searchResults = []
     }
@@ -65,6 +66,8 @@ class MainViewController: UIViewController {
         
         searchDataSource = SearchResultsDataSource(tableView: searchResultsTableView)
         searchDataSource.didSelect = { [weak self] completion in
+            self?.activityIndicator.startAnimating()
+            self?.activityIndicator.isHidden = false
             self?.hideOverlay()
             self?.locationSearchBar.resignFirstResponder()
             let request = MKLocalSearch.Request(completion: completion)
@@ -75,10 +78,10 @@ class MainViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.onForecastFetched = { [weak self] forecast, location in
+        viewModel.onForecastFetched = { [weak self] forecast, location, forecastURL in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
-                let sender: [String: Any?] = ["forecast": forecast, "location": location]
+                let sender: [String: Any?] = ["forecast": forecast, "location": location, "forecastURL": forecastURL]
                 self?.performSegue(withIdentifier: "showForecast", sender: sender)
             }
         }
@@ -118,7 +121,8 @@ class MainViewController: UIViewController {
 
         searchResultsTableView = UITableView(frame: .zero, style: .plain)
         searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
-        searchResultsTableView.backgroundColor = .white
+        searchResultsTableView.backgroundColor = .clear
+        searchResultsTableView.backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         searchResultsTableView.layer.cornerRadius = 12
         searchResultsTableView.layer.masksToBounds = true
         searchResultsTableView.layer.shadowColor = UIColor.black.cgColor
@@ -162,7 +166,8 @@ class MainViewController: UIViewController {
             let forecastViewController = segue.destination as? ForecastViewController
             let obj = sender as? [String: Any?]
             forecastViewController?.forecastViewModel = ForecastViewModel(cityForecast: obj?["forecast"] as? HourlyForecastResponse,
-                                                                          cityState: obj?["location"] as? RelativeLocationProperties)
+                                                                          cityState: obj?["location"] as? RelativeLocationProperties,
+                                                                          forecastURL: obj?["forecastURL"] as? String)
         }
     }
     
