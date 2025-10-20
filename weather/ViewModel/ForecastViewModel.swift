@@ -6,15 +6,12 @@
 //
 
 import Foundation
-import UIKit
 
 struct ForecastViewModel {
     var cityForecast: HourlyForecastResponse?
     var cityState: RelativeLocationProperties?
     let pickerStatuses = ["Fahrenheit", "Celsius"]
     var newTemp: UnitTemperature = .fahrenheit
-    let blurEffect = UIBlurEffect(style: .light)
-    var blurEffectView = UIVisualEffectView()
     
     struct DaySection {
         let date: Date
