@@ -9,31 +9,15 @@ import UIKit
 
 class DayForecastPageViewController: UIPageViewController {
     var forecastViewModel: ForecastViewModel!
-
-    private var pages: [DayForecastViewController] = []
-    private let topBarScrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.showsHorizontalScrollIndicator = false
-        return sv
-    }()
-    private let topBarStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .horizontal
-        sv.spacing = 14
-        sv.alignment = .center
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    private var dateButtons: [UIButton] = []
-    private let topBarHeight: CGFloat = 44
+    var pages: [DayForecastViewController] = []
+    var topBarScrollView: UIScrollView?
+    var dateButtons: [UIButton] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         delegate = self
         buildPages()
-        setupTopBar()
         if let first = pages.first {
             setViewControllers([first], direction: .forward, animated: false, completion: nil)
         }
@@ -41,7 +25,7 @@ class DayForecastPageViewController: UIPageViewController {
 
     private func buildPages() {
         pages = []
-        guard var vm = forecastViewModel else { return }
+        guard let vm = forecastViewModel else { return }
         for index in 0..<(vm.dateArray.count) {
             let vc = DayForecastViewController()
             vc.forecastViewModel = vm
@@ -50,51 +34,8 @@ class DayForecastPageViewController: UIPageViewController {
         }
     }
     
-    private func setupTopBar() {
-        // Add scroll view and stack
-        view.addSubview(topBarScrollView)
-        topBarScrollView.addSubview(topBarStackView)
-        NSLayoutConstraint.activate([
-            topBarScrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            topBarScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            topBarScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            topBarScrollView.heightAnchor.constraint(equalToConstant: topBarHeight),
-
-            topBarStackView.topAnchor.constraint(equalTo: topBarScrollView.topAnchor),
-            topBarStackView.bottomAnchor.constraint(equalTo: topBarScrollView.bottomAnchor),
-            topBarStackView.leadingAnchor.constraint(equalTo: topBarScrollView.leadingAnchor),
-            topBarStackView.trailingAnchor.constraint(equalTo: topBarScrollView.trailingAnchor),
-            topBarStackView.heightAnchor.constraint(equalTo: topBarScrollView.heightAnchor)
-        ])
-
-        // Create date buttons
-        dateButtons = []
-        for index in 0..<pages.count {
-            let btn = UIButton(type: .system)
-            btn.tag = index
-            btn.setTitle(formattedTitle(for: index), for: .normal)
-            btn.titleLabel?.font = UIFont.preferredFont(forTextStyle: .subheadline)
-            btn.setTitleColor(.darkGray, for: .normal)
-            btn.setTitleColor(.white, for: .selected)
-            btn.tintColor = .darkGray
-            btn.addTarget(self, action: #selector(dateButtonTapped(_:)), for: .touchUpInside)
-            btn.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
-            btn.layer.cornerRadius = 8
-            btn.clipsToBounds = true
-            topBarStackView.addArrangedSubview(btn)
-            dateButtons.append(btn)
-        }
-        
-        // Push page content down so the top of pages is anchored to the bottom of the bar
-        additionalSafeAreaInsets.top += topBarHeight + 200
-
-        // Make sure the top bar is above the page view's internal scroll view
-        view.bringSubviewToFront(topBarScrollView)
-        self.updateTopBarSelection(for: 0)
-    }
-    
     private func formattedTitle(for index: Int) -> String? {
-        guard var vm = forecastViewModel,
+        guard let vm = forecastViewModel,
               index >= 0, index < vm.dateArray.count else {
             return nil
         }
@@ -103,7 +44,7 @@ class DayForecastPageViewController: UIPageViewController {
         return formatter.string(from: vm.dateArray[index].date)
     }
 
-    @objc private func dateButtonTapped(_ sender: UIButton) {
+    @objc func dateButtonTapped(_ sender: UIButton) {
         goToPage(index: sender.tag, animated: true)
     }
 
@@ -115,7 +56,7 @@ class DayForecastPageViewController: UIPageViewController {
         }
     }
     
-    private func updateTopBarSelection(for index: Int) {
+    func updateTopBarSelection(for index: Int) {
         guard index >= 0, index < dateButtons.count else { return }
         for (i, btn) in dateButtons.enumerated() {
             let selected = (i == index)
@@ -125,7 +66,7 @@ class DayForecastPageViewController: UIPageViewController {
 
         let selectedButton = dateButtons[index]
         let visibleRect = selectedButton.frame
-        topBarScrollView.scrollRectToVisible(visibleRect, animated: true)
+        topBarScrollView?.scrollRectToVisible(visibleRect, animated: true)
     }
 }
 

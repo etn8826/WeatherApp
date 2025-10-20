@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastViewModel {
+class ForecastViewModel {
     var cityForecast: HourlyForecastResponse?
     var cityState: RelativeLocationProperties?
     let pickerStatuses = ["Fahrenheit", "Celsius"]
@@ -38,4 +38,9 @@ struct ForecastViewModel {
             isoFormatter.date(from: $0.startTime)! < isoFormatter.date(from: $1.startTime)!
         })}
     }()
+    
+    init(cityForecast: HourlyForecastResponse?, cityState: RelativeLocationProperties?) {
+        self.cityForecast = cityForecast
+        self.cityState = cityState
+    }
 }

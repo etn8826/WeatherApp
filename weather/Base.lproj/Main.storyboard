@@ -100,18 +100,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xMY-AC-qEl">
-                                <rect key="frame" x="0.0" y="92" width="414" height="770"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="hJK-jV-RVN" id="U3W-yk-o2o"/>
-                                    <outlet property="delegate" destination="hJK-jV-RVN" id="9gT-19-iD7"/>
-                                </connections>
-                            </tableView>
                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YUY-1p-eod">
                                 <rect key="frame" x="0.0" y="92" width="414" height="168"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -129,10 +117,6 @@
                         <constraints>
                             <constraint firstItem="YUY-1p-eod" firstAttribute="top" secondItem="e8B-9n-lVe" secondAttribute="top" id="30q-9A-Zd6"/>
                             <constraint firstItem="YUY-1p-eod" firstAttribute="leading" secondItem="e8B-9n-lVe" secondAttribute="leading" id="7Cq-Yk-YeE"/>
-                            <constraint firstItem="e8B-9n-lVe" firstAttribute="bottom" secondItem="xMY-AC-qEl" secondAttribute="bottom" id="JxV-R5-pYp"/>
-                            <constraint firstItem="xMY-AC-qEl" firstAttribute="leading" secondItem="e8B-9n-lVe" secondAttribute="leading" id="gfv-to-OUh"/>
-                            <constraint firstItem="xMY-AC-qEl" firstAttribute="top" secondItem="e8B-9n-lVe" secondAttribute="top" id="plt-bX-GMr"/>
-                            <constraint firstItem="e8B-9n-lVe" firstAttribute="trailing" secondItem="xMY-AC-qEl" secondAttribute="trailing" id="rtR-CJ-vaJ"/>
                             <constraint firstItem="YUY-1p-eod" firstAttribute="trailing" secondItem="e8B-9n-lVe" secondAttribute="trailing" id="x8e-A4-bUQ"/>
                         </constraints>
                     </view>
@@ -152,7 +136,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="pickerView" destination="YUY-1p-eod" id="xgF-hO-V43"/>
-                        <outlet property="tableView" destination="xMY-AC-qEl" id="jAI-OZ-nw9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cE1-Qr-HOs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

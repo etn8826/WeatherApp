@@ -262,14 +262,30 @@
 		52823655273834D80004010D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A0F186E92EA6C9C0005DE656 /* Forecast */,
+				A0F186E82EA6C9AE005DE656 /* Home */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A0F186E82EA6C9AE005DE656 /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				A0F186E02EA57ACA005DE656 /* ForecastResultsDataSource.swift */,
 				A0F186DE2EA57AB1005DE656 /* SearchResultsDataSource.swift */,
 				0DA8A4522736DF0B006A87E3 /* MainViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		A0F186E92EA6C9C0005DE656 /* Forecast */ = {
+			isa = PBXGroup;
+			children = (
 				0D133EA22737076F00FB1E86 /* ForecastViewController.swift */,
 				A0F186E42EA69767005DE656 /* DayForecastViewController.swift */,
 				A0F186E62EA69818005DE656 /* DayForecastPageViewController.swift */,
 			);
-			path = ViewControllers;
+			path = Forecast;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -11,8 +11,7 @@ import UIKit
 class DayForecastViewController: UIViewController {
     var forecastViewModel: ForecastViewModel!
     var dayIndex: Int = 0
-
-    private let tableView = UITableView()
+    let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +25,7 @@ class DayForecastViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 44),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         tableView.register(UINib(nibName: "ForecastCell", bundle: nil), forCellReuseIdentifier: "forecastCell")
@@ -34,6 +33,7 @@ class DayForecastViewController: UIViewController {
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.separatorColor = .black
+        tableView.allowsSelection = false
     }
 
     private func configureTitle() {
