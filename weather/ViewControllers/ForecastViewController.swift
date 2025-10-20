@@ -11,19 +11,25 @@ import UIKit
 class ForecastViewController: UIViewController {
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
+    var blurEffectView = UIVisualEffectView()
     
     var forecastViewModel: ForecastViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let viewModel = self.forecastViewModel else { return }
-        viewModel.blurEffectView.effect = self.forecastViewModel?.blurEffect
-        viewModel.blurEffectView.frame = self.view.bounds
-        viewModel.blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewModel.blurEffectView.isHidden = true
-        self.view.addSubview(viewModel.blurEffectView)
+        blurEffectView.effect = UIBlurEffect(style: .light)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.isHidden = true
+        self.view.addSubview(blurEffectView)
         self.registerTableViewCells()
         self.configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+        self.view.insertSubview(gradientView, at: 0)
     }
     
     private func registerTableViewCells() {
@@ -46,11 +52,11 @@ class ForecastViewController: UIViewController {
     
     @IBAction func degreeButtonPressed(_ sender: Any) {
         if self.pickerView.isHidden {
-            self.forecastViewModel?.blurEffectView.isHidden = false
+            blurEffectView.isHidden = false
             self.view.bringSubviewToFront(self.pickerView)
             self.pickerView.isHidden = false
         } else {
-            self.forecastViewModel?.blurEffectView.isHidden = true
+            blurEffectView.isHidden = true
             self.pickerView.isHidden = true
         }
     }
@@ -112,12 +118,12 @@ extension ForecastViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        DispatchQueue.main.async {
-            self.pickerView.isHidden = true
-            self.forecastViewModel?.blurEffectView.isHidden = true
-            guard let status = self.forecastViewModel?.pickerStatuses[row] else { return }
-            self.forecastViewModel?.newTemp = status == "Celsius" ? .celsius : .fahrenheit
-            self.tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.pickerView.isHidden = true
+            self?.blurEffectView.isHidden = true
+            guard let status = self?.forecastViewModel?.pickerStatuses[row] else { return }
+            self?.forecastViewModel?.newTemp = status == "Celsius" ? .celsius : .fahrenheit
+            self?.tableView.reloadData()
         }
     }
 }

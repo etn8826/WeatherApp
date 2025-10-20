@@ -45,6 +45,8 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+        self.view.insertSubview(gradientView, at: 0)
         self.locationSearchBar.text = ""
         self.searchResults = []
     }

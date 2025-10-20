@@ -42,6 +42,7 @@
 		A0E550282E9845D000EF5895 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E550272E9845D000EF5895 /* MainViewModel.swift */; };
 		A0F186DF2EA57ABB005DE656 /* SearchResultsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F186DE2EA57AB1005DE656 /* SearchResultsDataSource.swift */; };
 		A0F186E12EA57AD9005DE656 /* ForecastResultsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F186E02EA57ACA005DE656 /* ForecastResultsDataSource.swift */; };
+		A0F186E32EA5C809005DE656 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F186E22EA5C809005DE656 /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		A0E550272E9845D000EF5895 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		A0F186DE2EA57AB1005DE656 /* SearchResultsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsDataSource.swift; sourceTree = "<group>"; };
 		A0F186E02EA57ACA005DE656 /* ForecastResultsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastResultsDataSource.swift; sourceTree = "<group>"; };
+		A0F186E22EA5C809005DE656 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				0D3549EB273719940035DCCD /* ForecastCell.swift */,
 				0D17E27227371C2700C57F4C /* ForecastCell.xib */,
+				A0F186E22EA5C809005DE656 /* GradientView.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D133E8F2736EEC200FB1E86 /* WeatherRepository.swift in Sources */,
+				A0F186E32EA5C809005DE656 /* GradientView.swift in Sources */,
 				0D133EA32737076F00FB1E86 /* ForecastViewController.swift in Sources */,
 				0D3549E727370C750035DCCD /* ForecastHelper.swift in Sources */,
 				0D133E9B2736F99100FB1E86 /* MainForecast.swift in Sources */,
