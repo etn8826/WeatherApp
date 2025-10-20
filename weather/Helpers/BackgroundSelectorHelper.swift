@@ -32,10 +32,10 @@ struct BackgroundSelectorHelper {
     }
     
     static func forecastDetailBackgroundSelector(date: Date = Date(), weather: String) -> UIImage {
-        if weather == "Clouds" {
+        if weather.lowercased().contains("cloud") {
             guard let image = UIImage(named: "clouds_day") else { return UIImage() }
             return image
-        } else if weather == "Clear" {
+        } else if weather.lowercased().contains("clear") || weather.lowercased().contains("sunny") {
             let calendar = Calendar.current
             let hour = calendar.component(.hour, from: date)
             switch hour {
@@ -46,10 +46,10 @@ struct BackgroundSelectorHelper {
                 guard let image = UIImage(named: "clear_day") else { return UIImage() }
                 return image
             }
-        } else if weather == "Rain" {
+        } else if weather.lowercased().contains("rain") {
             guard let image = UIImage(named: "rain") else { return UIImage() }
             return image
-        } else if weather == "Snow" {
+        } else if weather.lowercased().contains("Snow") {
             guard let image = UIImage(named: "snow") else { return UIImage() }
             return image
         } else {

@@ -10,12 +10,19 @@ import Foundation
 class ForecastViewModel {
     var cityForecast: HourlyForecastResponse?
     var cityState: RelativeLocationProperties?
+    var forecastURL: String?
     let pickerStatuses = ["Fahrenheit", "Celsius"]
     var newTemp: UnitTemperature = .fahrenheit
     
     struct DaySection {
         let date: Date
         let weathers: [Periods]
+    }
+    
+    struct CityInfo {
+        let city: String
+        let state: String
+        let hourlyForecastURL: String
     }
     
     let isoFormatter = ISO8601DateFormatter()
@@ -39,8 +46,9 @@ class ForecastViewModel {
         })}
     }()
     
-    init(cityForecast: HourlyForecastResponse?, cityState: RelativeLocationProperties?) {
+    init(cityForecast: HourlyForecastResponse?, cityState: RelativeLocationProperties?, forecastURL: String?) {
         self.cityForecast = cityForecast
         self.cityState = cityState
+        self.forecastURL = forecastURL
     }
 }

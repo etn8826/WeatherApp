@@ -38,6 +38,7 @@ class SearchResultsDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
         cell.textLabel?.text = item.title
         cell.detailTextLabel?.text = item.subtitle
         cell.selectionStyle = .none
+        cell.backgroundColor = .clear
         return cell
     }
 

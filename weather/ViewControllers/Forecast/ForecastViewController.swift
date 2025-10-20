@@ -43,8 +43,9 @@ class ForecastViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
-        self.view.insertSubview(gradientView, at: 0)
+        self.view.addBackgroundFor(date: Date(), weather: self.forecastViewModel?.cityForecast?.properties.periods.first?.shortForecast ?? "")
+//        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+//        self.view.insertSubview(gradientView, at: 0)
     }
     
     private func configureView() {
@@ -72,7 +73,6 @@ class ForecastViewController: UIViewController {
     }
     
     private func setupTopBar() {
-        // Add scroll view and stack
         view.addSubview(topBarScrollView)
         topBarScrollView.addSubview(topBarStackView)
         NSLayoutConstraint.activate([
@@ -135,6 +135,7 @@ class ForecastViewController: UIViewController {
 
     @IBAction func addForecast(_ sender: Any) {
         // Add forecast to local storage to view on mainscreen
+        
     }
 }
 
