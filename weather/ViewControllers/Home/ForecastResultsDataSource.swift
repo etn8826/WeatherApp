@@ -11,19 +11,12 @@ class ForecastResultsDataSource: NSObject, UITableViewDataSource, UITableViewDel
     private weak var tableView: UITableView?
     private var items: [Any] = []
     var didSelect: ((Any) -> Void)?
-    private let cellIdentifier: String
-    private let configureCell: (UITableViewCell, Any, IndexPath) -> Void
 
-    init(tableView: UITableView,
-         cellIdentifier: String = "ForecastResultCell",
-         configureCell: @escaping (UITableViewCell, Any, IndexPath) -> Void) {
+    init(tableView: UITableView) {
         self.tableView = tableView
-        self.cellIdentifier = cellIdentifier
-        self.configureCell = configureCell
         super.init()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
 
     func update(items: [Any]) {
@@ -37,9 +30,8 @@ class ForecastResultsDataSource: NSObject, UITableViewDataSource, UITableViewDel
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        let item = items[indexPath.row]
-        configureCell(cell, item, indexPath)
+        let id = "ForecastResultCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath)
         return cell
     }
 

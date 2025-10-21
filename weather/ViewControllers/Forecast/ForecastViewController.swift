@@ -43,9 +43,8 @@ class ForecastViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.addBackgroundFor(date: Date(), weather: self.forecastViewModel?.cityForecast?.properties.periods.first?.shortForecast ?? "")
-//        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
-//        self.view.insertSubview(gradientView, at: 0)
+        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+        self.view.insertSubview(gradientView, at: 0)
     }
     
     private func configureView() {
@@ -117,9 +116,7 @@ class ForecastViewController: UIViewController {
               index >= 0, index < vm.dateArray.count else {
             return nil
         }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, MMM d" // shorter format for a bar
-        return formatter.string(from: vm.dateArray[index].date)
+        return DateHelper.convertDateToString(date: vm.dateArray[index].date, format: .date)
     }
     
     @IBAction func degreeButtonPressed(_ sender: Any) {

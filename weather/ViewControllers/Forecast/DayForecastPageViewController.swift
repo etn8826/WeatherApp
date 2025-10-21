@@ -8,7 +8,7 @@
 import UIKit
 
 class DayForecastPageViewController: UIPageViewController {
-    var forecastViewModel: ForecastViewModel!
+    var forecastViewModel: ForecastViewModel?
     var pages: [DayForecastViewController] = []
     var topBarScrollView: UIScrollView?
     var dateButtons: [UIButton] = []
@@ -32,16 +32,6 @@ class DayForecastPageViewController: UIPageViewController {
             vc.dayIndex = index
             pages.append(vc)
         }
-    }
-    
-    private func formattedTitle(for index: Int) -> String? {
-        guard let vm = forecastViewModel,
-              index >= 0, index < vm.dateArray.count else {
-            return nil
-        }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, MMM d" // shorter format for a bar
-        return formatter.string(from: vm.dateArray[index].date)
     }
 
     @objc func dateButtonTapped(_ sender: UIButton) {

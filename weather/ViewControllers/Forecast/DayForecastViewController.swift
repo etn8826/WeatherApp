@@ -9,14 +9,13 @@
 import UIKit
 
 class DayForecastViewController: UIViewController {
-    var forecastViewModel: ForecastViewModel!
+    var forecastViewModel: ForecastViewModel?
     var dayIndex: Int = 0
     let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        configureTitle()
     }
 
     private func setupTableView() {
@@ -35,13 +34,6 @@ class DayForecastViewController: UIViewController {
         tableView.separatorColor = .black
         tableView.allowsSelection = false
     }
-
-    private func configureTitle() {
-        guard let date = forecastViewModel?.dateArray[dayIndex].date else { return }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d"
-        self.title = formatter.string(from: date)
-    }
 }
 
 extension DayForecastViewController: UITableViewDataSource, UITableViewDelegate {
@@ -59,7 +51,7 @@ extension DayForecastViewController: UITableViewDataSource, UITableViewDelegate 
               let cell = tableView.dequeueReusableCell(withIdentifier: "forecastCell", for: indexPath) as? ForecastCell
         else { return UITableViewCell() }
 
-        let dateString = DateHelper.convertDTToString(dateString: forecast.startTime, format: .time)
+        let dateString = DateHelper.formatDateString(dateString: forecast.startTime, format: .time)
         let tempString = ForecastHelper.convert(temp: Float(forecast.temperature), from: .fahrenheit, to: forecastViewModel?.newTemp ?? .fahrenheit)
         let rainString = String(forecast.probabilityOfPrecipitation.value) + "%"
         let windString = forecast.windSpeed

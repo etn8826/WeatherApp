@@ -41,27 +41,21 @@ class MainViewController: UIViewController {
         self.configureSearchTableView()
         self.configureTableViewDataSource()
         self.bindViewModel()
-        self.view.addBackgroundFor(date: Date())
+//        self.view.addBackgroundFor(date: Date())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
-//        self.view.insertSubview(gradientView, at: 0)
+        let gradientView = GradientView(frame: view.bounds, startColor: .systemCyan, endColor: .systemOrange)
+        self.view.insertSubview(gradientView, at: 0)
         self.locationSearchBar.text = ""
         self.searchResults = []
     }
 
     private func configureTableViewDataSource() {
-        forecastDataSource = ForecastResultsDataSource(tableView: locationSearchTableView) { cell, item, _ in
-            if let s = item as? String {
-                cell.textLabel?.text = s
-            } else {
-                cell.textLabel?.text = String(describing: item)
-            }
-        }
-        forecastDataSource.didSelect = { [weak self] item in
-            print("API row selected:", item)
+        forecastDataSource = ForecastResultsDataSource(tableView: locationSearchTableView)
+        forecastDataSource.didSelect = { _ in
+            //TODO: implement saved forcast cell
         }
         
         searchDataSource = SearchResultsDataSource(tableView: searchResultsTableView)
