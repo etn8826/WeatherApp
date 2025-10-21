@@ -14,7 +14,8 @@ struct DateHelper {
         case time = "h:mm a"
         case dateTime = "EEEE, MMMM d\nhh:mm a"
     }
-    static func convertDTToString(dateString: String, format: DateFormat) -> String {
+
+    static func formatDateString(dateString: String, format: DateFormat) -> String {
         let isoFormatter = ISO8601DateFormatter()
         isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         if let date = isoFormatter.date(from: dateString) ?? ISO8601DateFormatter().date(from: dateString) {
@@ -24,5 +25,11 @@ struct DateHelper {
         } else {
             return ""
         }
+    }
+    
+    static func convertDateToString(date: Date, format: DateFormat) -> String {
+        let displayFormatter = DateFormatter()
+        displayFormatter.dateFormat = format.rawValue
+        return displayFormatter.string(from: date)
     }
 }
